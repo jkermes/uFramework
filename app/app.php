@@ -16,6 +16,18 @@ $app->get('/', function () use ($app) {
     return $app->render('index.php');
 });
 
+$app->post('/', function () use ($app) {
+    return $app->render('index.php');
+});
+
+$app->put('/', function () use ($app) {
+    return $app->render('index.php');
+});
+
+$app->delete('/', function () use ($app) {
+    return $app->render('index.php');
+});
+
 // ...
 
 return $app;
