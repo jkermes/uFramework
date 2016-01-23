@@ -9,11 +9,13 @@ $app = new \App(new View\TemplateEngine(
     __DIR__ . '/templates/'
 ), $debug);
 
+$finder = new \Model\InMemoryFinder();
+
 /**
  * Index
  */
-$app->get('/', function () use ($app) {
-    return $app->render('index.php');
+$app->get('/', function () use ($app, $finder) {
+    return $app->render('index.php', $finder->findAll());
 });
 
 $app->post('/', function () use ($app) {
