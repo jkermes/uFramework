@@ -45,9 +45,9 @@ class InMemoryFinder implements FinderInterface
     public function findOneById($id)
     {
         if (!array_key_exists($id, $this->store)) {
-            return $this->store[$id];
+            return null;
         }
 
-
+        return $this->store[$id];
     }
 }
