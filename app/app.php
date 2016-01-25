@@ -9,7 +9,7 @@ $app = new \App(new View\TemplateEngine(
     __DIR__ . '/templates/'
 ), $debug);
 
-$finder = new \Model\InMemoryFinder();
+$finder = new \Model\JsonFinder();
 
 /**
  * Index
@@ -23,7 +23,7 @@ $app->get('/(\d+)', function ($id) use ($app, $finder) {
         // Doesn't work as expected
         throw new HttpException(404, 'Oups! This status cannot be found :(');
     }
-
+var_dump(json_encode($status));
     return $app->render('detail.php', array('status' => $status));
 });
 
