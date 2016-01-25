@@ -14,7 +14,7 @@ $finder = new \Model\JsonFinder();
 /**
  * Index
  */
-$app->get('/', function () use ($app, $finder) {
+$app->get('/', function (\Http\Request $request) use ($app, $finder) {
     return $app->render('index.php', array('statuses' => $finder->findAll()));
 });
 
