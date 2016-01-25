@@ -2,7 +2,6 @@
 
 namespace Model;
 
-
 class JsonFinder implements FinderInterface
 {
     private $filePath;
