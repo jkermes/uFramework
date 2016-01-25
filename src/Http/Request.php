@@ -11,8 +11,9 @@ class Request
 
     private $method;
     private $uri;
+    private $parameters;
 
-    public function __construct()
+    public function __construct(array $query = array(), array $request = array())
     {
         $this->method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : self::GET;
         $this->uri    = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
@@ -20,6 +21,8 @@ class Request
         if ($pos = strpos($this->uri, '?')) {
             $this->uri = substr($this->uri, 0, $pos);
         }
+
+        $this->parameters = array_merge($query, $request);
     }
 
     public function getMethod()
@@ -33,6 +36,11 @@ class Request
 
     public static function createFromGlobals()
     {
-        return new self();
+        return new self($_GET, $_POST);
+    }
+
+    public function getParameter($name, $default = null)
+    {
+        return $this->parameters[$name] ?? null;
     }
 }
