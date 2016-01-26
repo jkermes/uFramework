@@ -121,6 +121,14 @@ class App
         throw new HttpException(404, 'Page Not Found');
     }
 
+    public function redirect($to, $statusCode = 302)
+    {
+        http_response_code($statusCode);
+        header(sprintf('Location: %s', $to));
+
+        die;
+    }
+
     /**
      * @param Route $route
      */

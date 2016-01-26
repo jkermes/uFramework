@@ -38,4 +38,14 @@ class JsonFinder implements FinderInterface
 
         return $this->store[$id];
     }
+
+    public function add($data)
+    {
+        $this->store[] = $data;
+    }
+
+    public function persist()
+    {
+        file_put_contents($this->filePath, json_encode($this->store));
+    }
 }

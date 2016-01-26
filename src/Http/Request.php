@@ -45,6 +45,6 @@ class Request
 
     public function getParameter($name, $default = null)
     {
-        return $this->parameters[$name] ?? null;
+        return $this->parameters[$name] ?? $default;
     }
 }
