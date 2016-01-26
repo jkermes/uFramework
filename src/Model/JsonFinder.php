@@ -32,11 +32,7 @@ class JsonFinder implements FinderInterface
      */
     public function findOneById($id)
     {
-        if (!array_key_exists($id, $this->store)) {
-            return null;
-        }
-
-        return $this->store[$id];
+        return $this->store[$id - 1] ?? null;
     }
 
     public function add($data)

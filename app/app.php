@@ -2,6 +2,9 @@
 
 require __DIR__ . '/../autoload.php';
 
+use \Exception\HttpException;
+use \Http\Request;
+
 // Config
 $debug = true;
 
@@ -14,24 +17,22 @@ $finder = new \Model\JsonFinder();
 /**
  * Index
  */
-$app->get('/statuses', function (\Http\Request $request) use ($app, $finder) {
+$app->get('/statuses', function (Request $request) use ($app, $finder) {
     return $app->render('index.php', array('statuses' => $finder->findAll()));
 });
 
-$app->get('/statuses/(\d+)', function (\Http\Request $request, $id) use ($app, $finder) {
+$app->get('/statuses/(\d+)', function (Request $request, $id) use ($app, $finder) {
     if (null === $status = $finder->findOneById($id)) {
-        // Doesn't work as expected
         throw new HttpException(404, 'Oups! This status cannot be found :(');
     }
 
     return $app->render('detail.php', array('status' => $status));
 });
 
-$app->post('/statuses', function (\Http\Request $request) use ($app, $finder) {
+$app->post('/statuses', function (Request $request) use ($app, $finder) {
     $finder->add(
         array(
-
-                'id' => count($finder->findAll()),
+                'id' => count($finder->findAll()) + 1,
                 'message' => $request->getParameter('message'),
                 'date' => (new \DateTime('now'))->format('Y-m-d H:i:s'),
                 'authorName' => $request->getParameter('username'),
@@ -47,11 +48,11 @@ $app->post('/statuses', function (\Http\Request $request) use ($app, $finder) {
     // By now, you can live without that. It also adds a Location header with the URI of the resource that has just been created.
 });
 
-$app->put('/statuses/(\d+)', function (\Http\Request $request, $id) use ($app, $finder) {
+$app->put('/statuses/(\d+)', function (Request $request, $id) use ($app, $finder) {
     return $app->render('index.php');
 });
 
-$app->delete('/statuses/(\d+)', function (\Http\Request $request, $id) use ($app, $finder) {
+$app->delete('/statuses/(\d+)', function (Request $request, $id) use ($app, $finder) {
     return $app->render('index.php');
 });
 
