@@ -26,7 +26,7 @@ $app->get('/statuses/(\d+)', function (Request $request, $id) use ($app, $finder
         throw new HttpException(404, 'Oups! This status cannot be found :(');
     }
 
-    return $app->render('detail.php', array('status' => $status));
+    return $app->render('status.php', array('status' => $status));
 });
 
 $app->post('/statuses', function (Request $request) use ($app, $finder) {
@@ -48,12 +48,17 @@ $app->post('/statuses', function (Request $request) use ($app, $finder) {
     // By now, you can live without that. It also adds a Location header with the URI of the resource that has just been created.
 });
 
-$app->put('/statuses/(\d+)', function (Request $request, $id) use ($app, $finder) {
-    return $app->render('index.php');
-});
-
 $app->delete('/statuses/(\d+)', function (Request $request, $id) use ($app, $finder) {
-    return $app->render('index.php');
+    if (null === $status = $finder->findOneById($id)) {
+        throw new HttpException(404, 'Oups! This status cannot be found :(');
+    }
+
+    $finder->remove($id);
+    $finder->persist();
+
+    $app->redirect('/statuses');
+
+    // Note: Should return a 204 http status
 });
 
 // ...

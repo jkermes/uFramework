@@ -40,6 +40,13 @@ class JsonFinder implements FinderInterface
         $this->store[] = $data;
     }
 
+    public function remove($id)
+    {
+        if (isset($this->store[$id - 1])) {
+            unset($this->store[$id - 1]);
+        }
+    }
+
     public function persist()
     {
         file_put_contents($this->filePath, json_encode($this->store));
