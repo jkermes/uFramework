@@ -1,0 +1,6 @@
+/app/storage.json
+/vendor/
+composer.lock
+composer.phar
+.idea
+
