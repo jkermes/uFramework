@@ -1,9 +1,10 @@
-<?php
+ <?php
 
 require __DIR__ . '/../vendor/autoload.php';
 
 use \Exception\HttpException;
 use \Http\Request;
+use Http\JsonResponse;
 
 // Config
 $debug = true;
@@ -17,16 +18,28 @@ $finder = new \Model\JsonFinder();
 /**
  * Index
  */
-$app->get('/statuses', function (Request $request) use ($app, $finder) {
-    return $app->render('index.php', array('statuses' => $finder->findAll()));
+$app->get('/statuses', function (Request $request) use ($app, $finder) {    
+    $data = array('statuses' => $finder->findAll());
+    
+    if ($request->guessBestFormat() === 'json') {
+        return new JsonResponse($data);
+    } 
+    
+    return $app->render('index.php', $data);
 });
 
 $app->get('/statuses/(\d+)', function (Request $request, $id) use ($app, $finder) {
     if (null === $status = $finder->findOneById($id)) {
         throw new HttpException(404, 'Oups! This status cannot be found :(');
     }
+    
+    $data = array('status' => $status);
 
-    return $app->render('status.php', array('status' => $status));
+    if ($request->guessBestFormat() === 'json') {
+        return new JsonResponse($data);
+    } 
+    
+    return $app->render('status.php', $data);
 });
 
 $app->post('/statuses', function (Request $request) use ($app, $finder) {
@@ -35,12 +48,16 @@ $app->post('/statuses', function (Request $request) use ($app, $finder) {
                 'id' => count($finder->findAll()) + 1,
                 'message' => $request->getParameter('message'),
                 'date' => (new \DateTime('now'))->format('Y-m-d H:i:s'),
-                'authorName' => $request->getParameter('username'),
-                'client' => 'Android 5.0'
+                'authorName' => $request->getParameter('authorName'),
+                'client' => $request->getParameter('client')
 
         )
     );
     $finder->persist();
+    
+    if ($request->guessBestFormat() === 'json') {
+        return new JsonResponse("statuses/" . count($finder->findAll()), 201);
+    } 
 
     $app->redirect('/statuses');
 
