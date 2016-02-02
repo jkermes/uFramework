@@ -2,6 +2,8 @@
 
 namespace Http;
 
+use Negotiation\Negotiator;
+
 class Request
 {
     const GET    = 'GET';
@@ -46,5 +48,14 @@ class Request
     public function getParameter($name, $default = null)
     {
         return $this->parameters[$name] ?? $default;
+    }
+    
+    public function guessBestFormat()
+    {
+        $negotiator = new Negotiator();
+        $acceptHeader = $_SERVER['HTTP_ACCEPT'];
+        $priorities   = array('text/html; charset=UTF-8', 'application/json');
+        
+        return $negotiator->getBest($acceptHeader, $priorities)->getValue();
     }
 }
