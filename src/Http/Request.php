@@ -42,8 +42,8 @@ class Request
 
     public static function createFromGlobals()
     {
-        if ('application/json' === $_SERVER['HTTP_CONTENT_TYPE']
-                || 'application/json' === $_SERVER['CONTENT_TYPE']) {
+        if ('application/json' === ($_SERVER['HTTP_CONTENT_TYPE'] ?? null)
+                || 'application/json' === ($_SERVER['CONTENT_TYPE'] ?? null)) {
             $data = file_get_contents('php://input');
             $request = @json_decode($data, true);
             
