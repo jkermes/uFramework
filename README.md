@@ -21,7 +21,7 @@ docker run -d \
     --entrypoint /bin/echo \
     busybox \
     "mysql data-only container"
-    
+
 ######Launch mySql container
     docker run -d -p 3306 \
         --name mysql \
