@@ -6,5 +6,5 @@
 </form>
 
 <p><?= $parameters['status']['message']?></p>
-<p><strong>@<?= $parameters['status']['authorName']?></strong></p>
-<p>Posted at <?= $parameters['status']['date']?></p>
+<p><strong>@<?= $parameters['status']['user_name']?></strong></p>
+<p>Posted at <?= $parameters['status']['publishDate']?></p>
