@@ -15,16 +15,19 @@ $app = new \App(new View\TemplateEngine(
 
 $finder = new \Model\JsonFinder();
 
+$app->get('/', function () use ($app) {
+    $app->redirect('/statuses');
+});
 /**
  * Index
  */
-$app->get('/statuses', function (Request $request) use ($app, $finder) {    
+$app->get('/statuses', function (Request $request) use ($app, $finder) {
     $data = array('statuses' => $finder->findAll());
-    
+
     if ($request->guessBestFormat() === 'json') {
         return new JsonResponse($data);
-    } 
-    
+    }
+
     return $app->render('index.php', $data);
 });
 
@@ -32,13 +35,13 @@ $app->get('/statuses/(\d+)', function (Request $request, $id) use ($app, $finder
     if (null === $status = $finder->findOneById($id)) {
         throw new HttpException(404, 'Oups! This status cannot be found :(');
     }
-    
+
     $data = array('status' => $status);
 
     if ($request->guessBestFormat() === 'json') {
         return new JsonResponse($data);
-    } 
-    
+    }
+
     return $app->render('status.php', $data);
 });
 
@@ -54,10 +57,10 @@ $app->post('/statuses', function (Request $request) use ($app, $finder) {
         )
     );
     $finder->persist();
-    
+
     if ($request->guessBestFormat() === 'json') {
         return new JsonResponse("statuses/" . count($finder->findAll()), 201);
-    } 
+    }
 
     $app->redirect('/statuses');
 
