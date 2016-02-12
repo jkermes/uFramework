@@ -15,6 +15,9 @@ $app = new \App(new View\TemplateEngine(
 
 $finder = new \Model\JsonFinder();
 
+$app->get('/', function() use ($app) {
+    $app->redirect('/statuses');
+});
 /**
  * Index
  */
