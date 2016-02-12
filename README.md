@@ -30,3 +30,10 @@ docker run -d \
         -e MYSQL_PASS=p4ssw0rd \
         -e ON_CREATE_DB=uframework \
         tutum/mysql
+
+######Connect to mysql server
+mysql uframework -h 127.0.0.1 -P32768 -uuframework -pp4ssw0rd
+(port may be different, type "docker ps" to see which port you must use)
+
+######Load database
+mysql uframework -h 127.0.0.1 -P32768 -uuframework -pp4ssw0rd < app/config/schema.sql

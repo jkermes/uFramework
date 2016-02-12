@@ -44,7 +44,7 @@
     <div class="col-sm-8">
         <?php foreach ($parameters['statuses'] as $id => $status) : ?>
             <div class="tweet card card-block">
-                <p class="card-title">@<?= $status['authorName'] ?> - <?= $status['date'] ?></p>
+                <p class="card-title">@<?= $status['user_name'] ?> - <?= $status['publishDate'] ?></p>
                 <p class="card-text"><?= $status['message'] ?></p>
             </div>
         <?php endforeach; ?>
