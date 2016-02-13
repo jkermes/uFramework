@@ -2,16 +2,17 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use \Exception\HttpException;
-use \Http\Request;
-use \Http\JsonResponse;
-use \Model\Connection;
-use \Model\StatusFinder;
+use Exception\HttpException;
+use Http\Request;
+use Http\JsonResponse;
+use View\TemplateEngine;
+use Model\Connection;
+use Model\StatusFinder;
 
 // Config
 $debug = true;
 
-$app = new \App(new View\TemplateEngine(
+$app = new App(new TemplateEngine(
     __DIR__ . '/templates/'
 ), $debug);
 

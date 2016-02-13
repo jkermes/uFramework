@@ -2,6 +2,9 @@
 
 namespace Model;
 
+use Model\Entity\Status;
+use DateTime;
+
 class StatusFinder implements FinderInterface
 {
     private $connection;
@@ -21,7 +24,11 @@ class StatusFinder implements FinderInterface
         $query = 'SELECT * FROM STATUSES';
         $res = $this->connection->query($query, Connection::FETCH_ASSOC);
 
-        return $res->fetchAll();
+        foreach ($res->fetchAll() as $status) {
+            $statuses[] = new Status($status['id'], $status['message'], $status['userName'], new DateTime($status['publishDate']), $status['client']);
+        }
+
+        return $statuses;
     }
 
     /**
@@ -34,8 +41,10 @@ class StatusFinder implements FinderInterface
     {
         $query = 'SELECT * FROM STATUSES WHERE id=:id';
         $stmt = $this->connection->prepare($query);
-        $res = $stmt->execute(array('id' => $id));
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+        $status = $stmt->fetch(Connection::FETCH_ASSOC);
 
-        return $stmt->fetch();
+        return new Status($status['id'], $status['message'], $status['userName'], new DateTime($status['publishDate']), $status['client']);
     }
 }

@@ -42,10 +42,10 @@
         </form>
     </div>
     <div class="col-sm-8">
-        <?php foreach ($parameters['statuses'] as $id => $status) : ?>
+        <?php foreach ($parameters['statuses'] as $status) : ?>
             <div class="tweet card card-block">
-                <p class="card-title">@<?= $status['user_name'] ?> - <?= $status['publishDate'] ?></p>
-                <p class="card-text"><?= $status['message'] ?></p>
+                <p class="card-title">@<?= $status->getUserName() ?> - <?= $status->getPublishDate()->format('Y-m-d H:i') ?></p>
+                <p class="card-text"><?= $status->getMessage() ?></p>
             </div>
         <?php endforeach; ?>
     </div>
