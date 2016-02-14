@@ -14,15 +14,16 @@
     - PUT /statuses - Update a status
     - DELETE /statuses/12 - Delete status #12
 
-######Create mysql instance
+######Create container
 
-docker run -d \
-    --volume /var/lib/mysql \
-    --name data_mysql \
-    --entrypoint /bin/echo \
-    busybox \
-    "mysql data-only container"
+    docker run -d \
+        --volume /var/lib/mysql \
+        --name data_mysql \
+        --entrypoint /bin/echo \
+        busybox \
+        "mysql data-only container"
 
+######Launch container
     docker run -d -p 3306 \
         --name mysql \
         --volumes-from data_mysql \
