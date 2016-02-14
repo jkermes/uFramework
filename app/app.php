@@ -53,7 +53,7 @@ $app->get('/statuses', function (Request $request) use ($app, $statusFinder) {
  * Get a status
  */
 $app->get('/statuses/(\d+)', function (Request $request, $id) use ($app, $statusFinder) {
-    if (null === $status = $statusFinder->findOneById($id)) {
+    if (is_null($status = $statusFinder->findOneById($id))) {
         throw new HttpException(404, 'Oups! This status cannot be found :(');
     }
 
@@ -69,8 +69,7 @@ $app->get('/statuses/(\d+)', function (Request $request, $id) use ($app, $status
 /**
  * Add a status
  */
-$app->post('/statuses', function (Request $request) use ($app, $statusDM, $statusFinder) {
-
+$app->post('/statuses', function (Request $request) use ($app, $statusFinder, $statusDM) {
     $status = new Status(
         null,
         $request->getParameter('message'),
@@ -91,17 +90,18 @@ $app->post('/statuses', function (Request $request) use ($app, $statusDM, $statu
 /**
  * Delete a status
  */
-$app->delete('/statuses/(\d+)', function (Request $request, $id) use ($app, $statusFinder) {
-    if (null === $status = $statusFinder->findOneById($id)) {
+$app->delete('/statuses/(\d+)', function (Request $request, $id) use ($app, $statusFinder, $statusDM) {
+    if (is_null($status = $statusFinder->findOneById($id))) {
         throw new HttpException(404, 'Oups! This status cannot be found :(');
     }
 
-    $statusFinder->remove($id);
-    $statusFinder->persist();
+    $statusDM->remove($status);
+
+    if ($request->guessBestFormat() === 'json') {
+        return new JsonResponse(null, 204);
+    }
 
     $app->redirect('/statuses');
-
-    // Note: Should return a 204 http status
 });
 
 return $app;

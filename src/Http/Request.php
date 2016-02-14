@@ -30,7 +30,7 @@ class Request
     public function getMethod()
     {
         if (self::POST === $this->method) {
-            //return $this->getParameter('_method');
+            return $this->getParameter('_method');
         }
 
         return $this->method;

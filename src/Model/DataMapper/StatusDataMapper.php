@@ -35,7 +35,7 @@ class StatusDataMapper
             $action = 'UPDATE';
         }
 
-        $query = $action . ' INTO STATUS (message, userName, publishDate, client) VALUES (:message, :userName, :publishDate, :client)';
+        $query = $action . ' INTO status (message, userName, publishDate, client) VALUES (:message, :userName, :publishDate, :client)';
 
         return $this->con->executeQuery($query, array(
                 'message' => $status->getMessage(),
@@ -50,9 +50,12 @@ class StatusDataMapper
      * Remove a status from database
      *
      * @param Status $status
+     * @return bool
      */
     public function remove(Status $status)
     {
-        // TODO: Implement remove() method.
+        $query = 'DELETE FROM status WHERE id=:id';
+
+        return $this->con->executeQuery($query, array('id' => $status->getId()));
     }
 }

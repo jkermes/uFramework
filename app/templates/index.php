@@ -43,9 +43,10 @@
     </div>
     <div class="col-sm-8">
         <?php foreach ($parameters['statuses'] as $status) : ?>
-            <div class="tweet card card-block">
+            <div class="tweet card card-block clearfix">
                 <p class="card-title">@<?= $status->getUserName() ?> - <?= $status->getPublishDate()->format('Y-m-d H:i') ?></p>
                 <p class="card-text"><?= $status->getMessage() ?></p>
+                <a href="statuses/<?= $status->getId() ?>" class="btn btn-primary-outline pull-xs-right">See</a>
             </div>
         <?php endforeach; ?>
     </div>
