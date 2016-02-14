@@ -50,22 +50,22 @@ mysql uframework -h 127.0.0.1 -P32768 -uuframework -pp4ssw0rd < app/config/schem
 phpunit
 
 ######Done
-Routing
-Request
-Response
-JsonResponse
-Database connection
-JsonFinder
-StatusFinder
-InMemoryFinder
-Status entity
-Integrated Symfony Serializer
-Integrated Negotiation package
-Integrated Bootstrap 4
+- Routing
+- Request
+- Response
+- JsonResponse
+- Database connection
+- JsonFinder
+- StatusFinder
+- InMemoryFinder
+- Status entity
+- Integrated Symfony Serializer
+- Integrated Negotiation package
+- Integrated Bootstrap 4
 
 #######Missed
 I lost my OS on saturday night, so I wasted a lot of time to repair it, that's why I couldn't finalize my project.
 
-Filtering statuses doesn't work
-Testing a POST via JsonApi doesn't work (404 instead of 201)
-Authentication layer isn't implemented
+- Filtering statuses doesn't work
+- Testing a POST via JsonApi doesn't work (404 instead of 201)
+- Authentication layer isn't implemented
