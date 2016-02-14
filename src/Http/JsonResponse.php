@@ -2,9 +2,7 @@
 
 namespace Http;
 
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Serializer\JsonSerializer;
 
 class JsonResponse extends Response {
 
@@ -28,10 +26,8 @@ class JsonResponse extends Response {
      */
     private function serialize($content)
     {
-        $encoders = array(new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
-        $serializer = new Serializer($normalizers, $encoders);
-        $jsonContent = $serializer->serialize($content, 'json');
+        $serializer = new JsonSerializer();
+        $jsonContent = $serializer->serialize($content);
 
         return $jsonContent;
     }
