@@ -6,9 +6,9 @@ use Negotiation\Negotiator;
 
 class Request
 {
-    const GET    = 'GET';
-    const POST   = 'POST';
-    const PUT    = 'PUT';
+    const GET = 'GET';
+    const POST = 'POST';
+    const PUT = 'PUT';
     const DELETE = 'DELETE';
 
     private $method;
@@ -18,7 +18,7 @@ class Request
     public function __construct(array $query = array(), array $request = array())
     {
         $this->method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : self::GET;
-        $this->uri    = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
+        $this->uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
 
         if ($pos = strpos($this->uri, '?')) {
             $this->uri = substr($this->uri, 0, $pos);
@@ -36,7 +36,8 @@ class Request
         return $this->method;
     }
 
-    public function getUri() {
+    public function getUri()
+    {
         return $this->uri;
     }
 
@@ -46,10 +47,10 @@ class Request
                 || 'application/json' === ($_SERVER['CONTENT_TYPE'] ?? null)) {
             $data = file_get_contents('php://input');
             $request = @json_decode($data, true);
-            
+
             return new self($_GET, $request);
         }
-        
+
         return new self($_GET, $_POST);
     }
 
@@ -57,21 +58,21 @@ class Request
     {
         return $this->parameters[$name] ?? $default;
     }
-    
+
     public function guessBestFormat()
     {
         $negotiator = new Negotiator();
         $acceptHeader = $_SERVER['HTTP_ACCEPT'];
-        $priorities   = array('text/html; charset=UTF-8', 'application/json');
-        
+        $priorities = array('text/html; charset=UTF-8', 'application/json');
+
         $value = $negotiator->getBest($acceptHeader, $priorities)->getValue();
-        
+
         switch ($value) {
             case 'application/json':
-                return 'json'; 
+                return 'json';
             break;
             case 'text/html':
-                return 'html'; 
+                return 'html';
             break;
         }
     }

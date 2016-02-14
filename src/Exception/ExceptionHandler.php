@@ -12,14 +12,14 @@ class ExceptionHandler
     private $templateEngine;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $debug;
 
     public function __construct(TemplateEngineInterface $templateEngine, $debug = false)
     {
         $this->templateEngine = $templateEngine;
-        $this->debug          = $debug;
+        $this->debug = $debug;
     }
 
     /**
@@ -40,13 +40,13 @@ class ExceptionHandler
         }
 
         $message = $exception->getMessage();
-        $trace   = $exception->getTrace();
+        $trace = $exception->getTrace();
 
         array_unshift($trace, array(
             'function' => '',
-            'file'     => $exception->getFile() != null ? $exception->getFile() : null,
-            'line'     => $exception->getLine() != null ? $exception->getLine() : null,
-            'args'     => array(),
+            'file' => $exception->getFile() != null ? $exception->getFile() : null,
+            'line' => $exception->getLine() != null ? $exception->getLine() : null,
+            'args' => array(),
         ));
 
         $firstTrace = array_shift($trace);
@@ -54,9 +54,9 @@ class ExceptionHandler
 
         array_unshift($trace, $firstTrace);
 
-        echo $this->templateEngine->render(__DIR__ . '/templates/exception.php', array(
+        echo $this->templateEngine->render(__DIR__.'/templates/exception.php', array(
             'message' => $message,
-            'trace'   => $trace,
+            'trace' => $trace,
         ));
     }
 
@@ -66,7 +66,7 @@ class ExceptionHandler
             $content = preg_split('#<br />#', preg_replace('/^<code>(.*)<\/code>$/s', '$1', highlight_file($file, true)));
 
             $lines = array();
-            for ($i = max($line - 3, 1), $max = min($line + 3, count($content)); $i <= $max; $i++) {
+            for ($i = max($line - 3, 1), $max = min($line + 3, count($content)); $i <= $max; ++$i) {
                 $lines[] = '<li'.($i == $line ? ' class="selected"' : '').'>'.$content[$i - 1].'</li>';
             }
 

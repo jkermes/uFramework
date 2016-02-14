@@ -10,7 +10,7 @@ class JsonFinder implements FinderInterface
 
     public function __construct()
     {
-        $this->filePath = __DIR__ . '/../../app/storage.json';
+        $this->filePath = __DIR__.'/../../app/storage.json';
         $this->store = json_decode(file_get_contents($this->filePath), true);
     }
 
@@ -27,7 +27,8 @@ class JsonFinder implements FinderInterface
     /**
      * Retrieve an element by its id.
      *
-     * @param  mixed $id
+     * @param mixed $id
+     *
      * @return null|mixed
      */
     public function findOneById($id)

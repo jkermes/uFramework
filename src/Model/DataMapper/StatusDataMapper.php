@@ -14,6 +14,7 @@ class StatusDataMapper
 
     /**
      * StatusDataMapper constructor.
+     *
      * @param Connection $con
      */
     public function __construct(Connection $con)
@@ -22,9 +23,10 @@ class StatusDataMapper
     }
 
     /**
-     * Persists a status into database
+     * Persists a status into database.
      *
      * @param Status $status
+     *
      * @return bool
      */
     public function persist(Status $status)
@@ -35,21 +37,22 @@ class StatusDataMapper
             $action = 'UPDATE';
         }
 
-        $query = $action . ' INTO status (message, userName, publishDate, client) VALUES (:message, :userName, :publishDate, :client)';
+        $query = $action.' INTO status (message, userName, publishDate, client) VALUES (:message, :userName, :publishDate, :client)';
 
         return $this->con->executeQuery($query, array(
                 'message' => $status->getMessage(),
                 'userName' => $status->getUserName(),
                 'publishDate' => $status->getPublishDate()->format('Y-m-d H:i'),
-                'client' => $status->getClient()
+                'client' => $status->getClient(),
             )
         );
     }
 
     /**
-     * Remove a status from database
+     * Remove a status from database.
      *
      * @param Status $status
+     *
      * @return bool
      */
     public function remove(Status $status)

@@ -11,6 +11,7 @@ class StatusFinder implements FinderInterface
 
     /**
      * StatusFinder constructor.
+     *
      * @param Connection $connection
      */
     public function __construct(Connection $connection)
@@ -45,8 +46,7 @@ class StatusFinder implements FinderInterface
             foreach ($criteria as $key => $value) {
                 if ($key === 'limit') {
                     $stmt->bindValue(':'.$key, (int) trim($value), Connection::PARAM_INT);
-                }
-                else {
+                } else {
                     $stmt->bindValue(':'.$key, $value);
                 }
             }
@@ -54,13 +54,11 @@ class StatusFinder implements FinderInterface
             $stmt->execute();
             //var_dump($stmt->errorInfo());
             $res = $stmt->fetchAll(Connection::FETCH_ASSOC);
-        }
-        else {
+        } else {
             $res = $this->connection->query($query, Connection::FETCH_ASSOC)->fetchAll();
         }
 
         //var_dump($stmt->queryString);
-
 
         foreach ($res as $status) {
             $statuses[] = new Status($status['id'], $status['message'], $status['userName'], new DateTime($status['publishDate']), $status['client']);
@@ -72,7 +70,8 @@ class StatusFinder implements FinderInterface
     /**
      * Retrieve an element by its id.
      *
-     * @param  mixed $id
+     * @param mixed $id
+     *
      * @return null|mixed
      */
     public function findOneById($id)
@@ -84,7 +83,7 @@ class StatusFinder implements FinderInterface
         $status = $stmt->fetch(Connection::FETCH_ASSOC);
 
         if (!isset($status[id])) {
-            return null;
+            return;
         }
 
         return new Status($status['id'], $status['message'], $status['userName'], new DateTime($status['publishDate']), $status['client']);

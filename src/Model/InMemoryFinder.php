@@ -14,15 +14,15 @@ class InMemoryFinder implements FinderInterface
                 'message' => 'Hi! This is my first tweet!',
                 'date' => (new \DateTime('now'))->format('Y-m-d H:i:s'),
                 'authorName' => 'Julien K.',
-                'client' => 'Android 5.0'
+                'client' => 'Android 5.0',
             ),
             '2' => array(
                 'id' => '2',
                 'message' => 'Hello! This is my second tweet!',
                 'date' => (new \DateTime('now'))->format('Y-m-d H:i:s'),
                 'authorName' => 'Julien K.',
-                'client' => 'Android 5.0'
-            )
+                'client' => 'Android 5.0',
+            ),
         );
     }
 
@@ -39,13 +39,14 @@ class InMemoryFinder implements FinderInterface
     /**
      * Retrieve an element by its id.
      *
-     * @param  mixed $id
+     * @param mixed $id
+     *
      * @return null|mixed
      */
     public function findOneById($id)
     {
         if (!array_key_exists($id, $this->store)) {
-            return null;
+            return;
         }
 
         return $this->store[$id];

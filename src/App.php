@@ -20,7 +20,7 @@ class App
     private $templateEngine;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $debug;
 
@@ -32,7 +32,7 @@ class App
     public function __construct(TemplateEngineInterface $templateEngine, $debug = false)
     {
         $this->templateEngine = $templateEngine;
-        $this->debug          = $debug;
+        $this->debug = $debug;
 
         $exceptionHandler = new ExceptionHandler($templateEngine, $this->debug);
         set_exception_handler(array($exceptionHandler, 'handle'));
@@ -111,7 +111,7 @@ class App
         }
 
         $method = $request->getMethod();
-        $uri    = $request->getUri();
+        $uri = $request->getUri();
 
         foreach ($this->routes as $route) {
             if ($route->match($method, $uri)) {
@@ -143,7 +143,7 @@ class App
             if (!$response instanceof Response) {
                 $response = new Response($response);
             }
-            
+
             $response->send();
         } catch (HttpException $e) {
             throw $e;

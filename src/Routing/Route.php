@@ -31,9 +31,9 @@ class Route
      */
     public function __construct($method, $pattern, $callable)
     {
-        $this->method    = $method;
-        $this->pattern   = $pattern;
-        $this->callable  = $callable;
+        $this->method = $method;
+        $this->pattern = $pattern;
+        $this->callable = $callable;
         $this->arguments = array();
     }
 
@@ -41,7 +41,7 @@ class Route
      * @param string $method
      * @param string $uri
      *
-     * @return boolean
+     * @return bool
      */
     public function match($method, $uri)
     {

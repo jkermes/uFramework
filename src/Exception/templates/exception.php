@@ -28,7 +28,7 @@
                     <?= $infos['file'] ?> line <strong><?= $infos['line'] ?></strong>
                     <?= $infos['excerpt'] ?>
                 <?php else: ?>
-                    at <strong><?= empty($infos['class']) ? '' : $infos['class'] . $infos['type'] ?><?= $infos['function'] ?></strong>()
+                    at <strong><?= empty($infos['class']) ? '' : $infos['class'].$infos['type'] ?><?= $infos['function'] ?></strong>()
 
                     <?php if (isset($infos['file'])) : ?>
                         <br />

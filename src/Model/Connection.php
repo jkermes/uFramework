@@ -8,7 +8,7 @@ class Connection extends PDO
 {
     /**
      * @param string $query
-     * @param array $parameters
+     * @param array  $parameters
      *
      * @return bool Returns `true` on success, `false` otherwise
      */
@@ -17,7 +17,7 @@ class Connection extends PDO
         $stmt = $this->prepare($query);
 
         foreach ($parameters as $name => $value) {
-            $stmt->bindValue(':' . $name, $value);
+            $stmt->bindValue(':'.$name, $value);
         }
 
         return $stmt->execute();

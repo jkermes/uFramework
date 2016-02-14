@@ -33,6 +33,7 @@ class Status
 
     /**
      * Status constructor.
+     *
      * @param $id
      * @param $message
      * @param $userName

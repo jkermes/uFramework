@@ -25,6 +25,7 @@ class JsonSerializer implements SerializerInterface
 
     /**
      * @param $content
+     *
      * @return string|\Symfony\Component\Serializer\Encoder\scalar
      */
     public function serialize($content)

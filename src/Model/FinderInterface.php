@@ -14,7 +14,8 @@ interface FinderInterface
     /**
      * Retrieve an element by its id.
      *
-     * @param  mixed      $id
+     * @param mixed $id
+     *
      * @return null|mixed
      */
     public function findOneById($id);

@@ -12,9 +12,9 @@ class Response
 
     public function __construct($content, $statusCode = 200, array $headers = [])
     {
-        $this->content    = $content;
+        $this->content = $content;
         $this->statusCode = $statusCode;
-        $this->headers    = array_merge([ 'Content-Type' => 'text/html' ], $headers);
+        $this->headers = array_merge(['Content-Type' => 'text/html'], $headers);
     }
 
     public function getStatusCode()
