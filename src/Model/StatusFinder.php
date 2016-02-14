@@ -23,12 +23,46 @@ class StatusFinder implements FinderInterface
      *
      * @return array
      */
-    public function findAll()
+    public function findAll($criteria = array())
     {
         $query = 'SELECT * FROM status';
-        $res = $this->connection->query($query, Connection::FETCH_ASSOC);
 
-        foreach ($res->fetchAll() as $status) {
+        if (isset($criteria['where'])) {
+            $query .= ' WHERE :where';
+        }
+
+        if (isset($criteria['orderBy'])) {
+            $query .= ' ORDER BY :orderBy';
+        }
+
+        if (isset($criteria['limit'])) {
+            $query .= ' LIMIT :limit';
+        }
+
+        if (isset($criteria)) {
+            $stmt = $this->connection->prepare($query);
+
+            foreach ($criteria as $key => $value) {
+                if ($key === 'limit') {
+                    $stmt->bindValue(':'.$key, (int) trim($value), Connection::PARAM_INT);
+                }
+                else {
+                    $stmt->bindValue(':'.$key, $value);
+                }
+            }
+
+            $stmt->execute();
+            //var_dump($stmt->errorInfo());
+            $res = $stmt->fetchAll(Connection::FETCH_ASSOC);
+        }
+        else {
+            $res = $this->connection->query($query, Connection::FETCH_ASSOC)->fetchAll();
+        }
+
+        //var_dump($stmt->queryString);
+
+
+        foreach ($res as $status) {
             $statuses[] = new Status($status['id'], $status['message'], $status['userName'], new DateTime($status['publishDate']), $status['client']);
         }
 

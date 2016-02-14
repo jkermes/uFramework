@@ -40,7 +40,19 @@ $app->get('/', function () use ($app) {
  * Statuses list
  */
 $app->get('/statuses', function (Request $request) use ($app, $statusFinder) {
-    $data = array('statuses' => $statusFinder->findAll());
+    if (!is_null($request->getParameter('where'))) {
+        $criteria['where'] = $request->getParameter('where');
+    }
+
+    if (!is_null($request->getParameter('orderBy'))) {
+        $criteria['orderBy'] = $request->getParameter('orderBy');
+    }
+
+    if (!is_null($request->getParameter('limit'))) {
+        $criteria['limit'] = $request->getParameter('limit');
+    }
+
+    $data = array('statuses' => $statusFinder->findAll($criteria));
 
     if ($request->guessBestFormat() === 'json') {
         return new JsonResponse($data);
