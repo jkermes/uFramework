@@ -8,6 +8,8 @@ use Http\JsonResponse;
 use View\TemplateEngine;
 use Model\Connection;
 use Model\StatusFinder;
+use Model\DataMapper\StatusDataMapper;
+use Model\Entity\Status;
 
 // Config
 $debug = true;
@@ -24,17 +26,20 @@ try {
      }
 }
 
-$finder = new StatusFinder($connection);
+$statusFinder = new StatusFinder($connection);
 
+/**
+ * Redirect '/' to '/statuses'
+ */
 $app->get('/', function () use ($app) {
     $app->redirect('/statuses');
 });
 
 /**
- * Index
+ * Statuses list
  */
-$app->get('/statuses', function (Request $request) use ($app, $finder) {
-    $data = array('statuses' => $finder->findAll());
+$app->get('/statuses', function (Request $request) use ($app, $statusFinder) {
+    $data = array('statuses' => $statusFinder->findAll());
 
     if ($request->guessBestFormat() === 'json') {
         return new JsonResponse($data);
@@ -43,8 +48,11 @@ $app->get('/statuses', function (Request $request) use ($app, $finder) {
     return $app->render('index.php', $data);
 });
 
-$app->get('/statuses/(\d+)', function (Request $request, $id) use ($app, $finder) {
-    if (null === $status = $finder->findOneById($id)) {
+/**
+ * Get a status
+ */
+$app->get('/statuses/(\d+)', function (Request $request, $id) use ($app, $statusFinder) {
+    if (null === $status = $statusFinder->findOneById($id)) {
         throw new HttpException(404, 'Oups! This status cannot be found :(');
     }
 
@@ -57,10 +65,13 @@ $app->get('/statuses/(\d+)', function (Request $request, $id) use ($app, $finder
     return $app->render('status.php', $data);
 });
 
-$app->post('/statuses', function (Request $request) use ($app, $finder) {
-    $finder->add(
+/**
+ * Add a status
+ */
+$app->post('/statuses', function (Request $request) use ($app, $statusFinder) {
+    $statusFinder->add(
         array(
-                'id' => count($finder->findAll()) + 1,
+                'id' => count($statusFinder->findAll()) + 1,
                 'message' => $request->getParameter('message'),
                 'date' => (new \DateTime('now'))->format('Y-m-d H:i:s'),
                 'authorName' => $request->getParameter('authorName'),
@@ -68,10 +79,10 @@ $app->post('/statuses', function (Request $request) use ($app, $finder) {
 
         )
     );
-    $finder->persist();
+    $statusFinder->persist();
 
     if ($request->guessBestFormat() === 'json') {
-        return new JsonResponse("statuses/" . count($finder->findAll()), 201);
+        return new JsonResponse("statuses/" . count($statusFinder->findAll()), 201);
     }
 
     $app->redirect('/statuses');
@@ -80,13 +91,16 @@ $app->post('/statuses', function (Request $request) use ($app, $finder) {
     // By now, you can live without that. It also adds a Location header with the URI of the resource that has just been created.
 });
 
-$app->delete('/statuses/(\d+)', function (Request $request, $id) use ($app, $finder) {
-    if (null === $status = $finder->findOneById($id)) {
+/**
+ * Delete a status
+ */
+$app->delete('/statuses/(\d+)', function (Request $request, $id) use ($app, $statusFinder) {
+    if (null === $status = $statusFinder->findOneById($id)) {
         throw new HttpException(404, 'Oups! This status cannot be found :(');
     }
 
-    $finder->remove($id);
-    $finder->persist();
+    $statusFinder->remove($id);
+    $statusFinder->persist();
 
     $app->redirect('/statuses');
 

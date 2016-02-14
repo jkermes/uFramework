@@ -42,7 +42,7 @@ class Status
         $this->id = $id;
         $this->message = $message;
         $this->userName = $userName;
-        $this->publishDate = $publishDate;
+        $this->publishDate = new DateTime($publishDate);
         $this->client = $client;
     }
 

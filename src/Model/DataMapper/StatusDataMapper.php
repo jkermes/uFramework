@@ -16,7 +16,20 @@ class StatusDataMapper
 
     public function persist(Status $status)
     {
-        // TODO: Implement persist() method.
+        $action = 'INSERT';
+
+        if (is_null($status->getId())) {
+            $action = 'UPDATE';
+        }
+
+        $query = $action . ' INTO STATUS (message, userName, publishDate) VALUES (:message, :user, :publishDate)';
+
+        return $this->con->executeQuery($query, array(
+                'message' => $status->getMessage(),
+                'userName' => $status->getUserName(),
+                'publishDate' => $status->getPublishDate(),
+            )
+        );
     }
 
     public function remove(Status $status)

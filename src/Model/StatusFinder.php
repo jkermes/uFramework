@@ -21,11 +21,11 @@ class StatusFinder implements FinderInterface
      */
     public function findAll()
     {
-        $query = 'SELECT * FROM STATUSES';
+        $query = 'SELECT * FROM STATUS';
         $res = $this->connection->query($query, Connection::FETCH_ASSOC);
 
         foreach ($res->fetchAll() as $status) {
-            $statuses[] = new Status($status['id'], $status['message'], $status['userName'], new DateTime($status['publishDate']), $status['client']);
+            $statuses[] = new Status($status['id'], $status['message'], $status['userName'], $status['publishDate'], $status['client']);
         }
 
         return $statuses;
@@ -39,12 +39,12 @@ class StatusFinder implements FinderInterface
      */
     public function findOneById($id)
     {
-        $query = 'SELECT * FROM STATUSES WHERE id=:id';
+        $query = 'SELECT * FROM STATUS WHERE id=:id';
         $stmt = $this->connection->prepare($query);
         $stmt->bindValue(':id', $id);
         $stmt->execute();
         $status = $stmt->fetch(Connection::FETCH_ASSOC);
 
-        return new Status($status['id'], $status['message'], $status['userName'], new DateTime($status['publishDate']), $status['client']);
+        return new Status($status['id'], $status['message'], $status['userName'], $status['publishDate'], $status['client']);
     }
 }
