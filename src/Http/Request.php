@@ -30,7 +30,7 @@ class Request
     public function getMethod()
     {
         if (self::POST === $this->method) {
-            //return $this->getParameter('_method');
+            return $this->getParameter('_method');
         }
 
         return $this->method;
@@ -74,5 +74,10 @@ class Request
                 return 'html'; 
             break;
         }
+    }
+
+    public function getUserAgent()
+    {
+        return $_SERVER['HTTP_USER_AGENT'] ?? null;
     }
 }
