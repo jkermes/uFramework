@@ -9,7 +9,11 @@ class StatusFinder implements FinderInterface
 {
     private $connection;
 
-    public function __construct(\Model\Connection $connection)
+    /**
+     * StatusFinder constructor.
+     * @param Connection $connection
+     */
+    public function __construct(Connection $connection)
     {
         $this->connection = $connection;
     }
@@ -25,7 +29,7 @@ class StatusFinder implements FinderInterface
         $res = $this->connection->query($query, Connection::FETCH_ASSOC);
 
         foreach ($res->fetchAll() as $status) {
-            $statuses[] = new Status($status['id'], $status['message'], $status['userName'], $status['publishDate'], $status['client']);
+            $statuses[] = new Status($status['id'], $status['message'], $status['userName'], new DateTime($status['publishDate']), $status['client']);
         }
 
         return $statuses;
@@ -45,6 +49,6 @@ class StatusFinder implements FinderInterface
         $stmt->execute();
         $status = $stmt->fetch(Connection::FETCH_ASSOC);
 
-        return new Status($status['id'], $status['message'], $status['userName'], $status['publishDate'], $status['client']);
+        return new Status($status['id'], $status['message'], $status['userName'], new DateTime($status['publishDate']), $status['client']);
     }
 }

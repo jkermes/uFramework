@@ -27,6 +27,7 @@ try {
 }
 
 $statusFinder = new StatusFinder($connection);
+$statusDM = new StatusDataMapper($connection);
 
 /**
  * Redirect '/' to '/statuses'
@@ -68,27 +69,23 @@ $app->get('/statuses/(\d+)', function (Request $request, $id) use ($app, $status
 /**
  * Add a status
  */
-$app->post('/statuses', function (Request $request) use ($app, $statusFinder) {
-    $statusFinder->add(
-        array(
-                'id' => count($statusFinder->findAll()) + 1,
-                'message' => $request->getParameter('message'),
-                'date' => (new \DateTime('now'))->format('Y-m-d H:i:s'),
-                'authorName' => $request->getParameter('authorName'),
-                'client' => $request->getParameter('client')
+$app->post('/statuses', function (Request $request) use ($app, $statusDM, $statusFinder) {
 
-        )
+    $status = new Status(
+        null,
+        $request->getParameter('message'),
+        $request->getParameter('authorName'),
+        new DateTime(),
+        $request->getUserAgent()
     );
-    $statusFinder->persist();
+
+    $statusDM->persist($status);
 
     if ($request->guessBestFormat() === 'json') {
         return new JsonResponse("statuses/" . count($statusFinder->findAll()), 201);
     }
 
     $app->redirect('/statuses');
-
-    // Note: a REST API should return a 201 status code which stands for Created. It will be useful for the next practical.
-    // By now, you can live without that. It also adds a Location header with the URI of the resource that has just been created.
 });
 
 /**
@@ -106,7 +103,5 @@ $app->delete('/statuses/(\d+)', function (Request $request, $id) use ($app, $sta
 
     // Note: Should return a 204 http status
 });
-
-// ...
 
 return $app;

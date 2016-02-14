@@ -33,8 +33,10 @@ class Status
 
     /**
      * Status constructor.
+     * @param $id
      * @param $message
      * @param $userName
+     * @param $publishDate
      * @param null $client
      */
     public function __construct($id, $message, $userName, $publishDate, $client = null)
@@ -42,7 +44,7 @@ class Status
         $this->id = $id;
         $this->message = $message;
         $this->userName = $userName;
-        $this->publishDate = new DateTime($publishDate);
+        $this->publishDate = $publishDate;
         $this->client = $client;
     }
 
