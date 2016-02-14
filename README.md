@@ -43,6 +43,8 @@ docker run -d -p 3306 \
 mysql uframework -h 127.0.0.1 -P32768 -uuframework -pp4ssw0rd
 (port may be different, type "docker ps" to see which port you must use)
 
+if port is different, you have to change it on line 22 of app/app.php also
+
 ######Load database
 
 mysql uframework -h 127.0.0.1 -P32768 -uuframework -pp4ssw0rd < app/config/schema.sql

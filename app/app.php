@@ -19,7 +19,7 @@ $app = new App(new TemplateEngine(
 ), $debug);
 
 try {
-    $connection = new Connection('mysql:host=localhost:32768;dbname=uframework', 'uframework', 'p4ssw0rd');
+    $connection = new Connection('mysql:host=localhost:32769;dbname=uframework', 'uframework', 'p4ssw0rd');
 } catch (PDOException $e) {
      if (true === $debug) {
          echo $e->getMessage();
