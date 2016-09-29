@@ -66,9 +66,7 @@ phpunit
 - Integrated Negotiation package
 - Integrated Bootstrap 4
 
-#######Missed
-I lost my OS on saturday night, so I wasted a lot of time to repair it, that's why I couldn't finalize my project.
-
+#######Issues
 - Filtering statuses doesn't work
 - Testing a POST via JsonApi doesn't work (404 instead of 201)
 - Authentication layer isn't implemented
